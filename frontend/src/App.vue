@@ -3,7 +3,7 @@ import LessonPlayer from './ui/LessonPlayer.vue';
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-background via-secondary to-accent/20">
+  <div class="min-h-screen bg-linear-to-br from-background via-secondary to-accent/20">
     <LessonPlayer />
   </div>
 </template>
