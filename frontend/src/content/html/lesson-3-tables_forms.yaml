@@ -1,0 +1,229 @@
+
+# ==========================================
+# LESSON 3: TABLES & FORMS BASICS
+# ==========================================
+
+id: "html-03-tables-forms"
+topic: "HTML"
+title: "Organizing Data and Getting Input"
+steps:
+  - id: "step-1"
+    explanation: "Tables display data in rows and columns, like a spreadsheet. The `<table>` tag creates the container."
+    visual:
+      type: "diagram"
+      content: "Grid showing rows and columns"
+    supplemental:
+      type: "example"
+      title: "When to Use Tables"
+      content: "Use tables for actual data (schedules, statistics, comparisons). Never use tables for page layout—that's what CSS is for!"
+
+  - id: "step-2"
+    explanation: "Tables are built with rows using `<tr>` (table row) and cells using `<td>` (table data)."
+    code: |
+      <table>
+        <tr>
+          <td>Row 1, Cell 1</td>
+          <td>Row 1, Cell 2</td>
+        </tr>
+        <tr>
+          <td>Row 2, Cell 1</td>
+          <td>Row 2, Cell 2</td>
+        </tr>
+      </table>
+    visual:
+      type: "render"
+      content: "2x2 table displayed"
+    supplemental:
+      type: "tip"
+      title: "Table Structure"
+      content: "Think of it like building with blocks: table → rows → cells. Each <tr> represents one horizontal row."
+
+  - id: "step-3"
+    explanation: "Use `<th>` (table header) instead of `<td>` for header cells. Browsers make these bold automatically."
+    code: |
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>City</th>
+        </tr>
+        <tr>
+          <td>Alice</td>
+          <td>25</td>
+          <td>New York</td>
+        </tr>
+        <tr>
+          <td>Bob</td>
+          <td>30</td>
+          <td>London</td>
+        </tr>
+      </table>
+    visual:
+      type: "render"
+      content: "Table with bold headers and two data rows"
+    supplemental:
+      type: "tip"
+      title: "Accessibility"
+      content: "Using <th> helps screen readers understand which cells are headers, making your tables accessible."
+
+  - id: "step-4"
+    explanation: "Practice creating a table! Make a schedule or comparison table of your choice."
+    task:
+      instruction: "Create a table with one header row (using <th>) and at least two data rows (using <td>)."
+      expected: "<table>.*<tr>.*<th>.*</th>.*</tr>.*<tr>.*<td>.*</td>.*</tr>.*<tr>.*<td>.*</td>.*</tr>.*</table>"
+      starterCode: |
+        <body>
+          <h2>My Weekly Schedule</h2>
+          <!-- Create your table here -->
+        </body>
+    supplemental:
+      type: "example"
+      title: "Table Ideas"
+      content: "Try a weekly schedule (days and activities), a comparison chart (products and features), or a gradebook (subjects and scores)."
+
+  - id: "step-5"
+    explanation: "The `<thead>`, `<tbody>`, and `<tfoot>` tags help organize table sections semantically."
+    code: |
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Widget</td>
+            <td>$10</td>
+          </tr>
+          <tr>
+            <td>Gadget</td>
+            <td>$20</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>Total</td>
+            <td>$30</td>
+          </tr>
+        </tfoot>
+      </table>
+    supplemental:
+      type: "tip"
+      title: "Table Organization"
+      content: "These tags don't change appearance but add structure. They're especially useful for styling with CSS later."
+
+  - id: "step-6"
+    explanation: "Forms collect user input. The `<form>` tag is the container. The `action` attribute says where to send the data."
+    code: |
+      <form action="/submit">
+        <!-- Form inputs go here -->
+      </form>
+    supplemental:
+      type: "tip"
+      title: "How Forms Work"
+      content: "When submitted, forms send data to a server. For now, we'll focus on building the form structure."
+
+  - id: "step-7"
+    explanation: "The `<input>` tag creates input fields. The `type` attribute determines what kind of input it accepts."
+    code: |
+      <form>
+        <input type="text">
+      </form>
+    visual:
+      type: "render"
+      content: "Empty text input box"
+    supplemental:
+      type: "tip"
+      title: "Input Types"
+      content: "There are many input types: text, email, password, number, date, and more. We'll explore the most common ones."
+
+  - id: "step-8"
+    explanation: "Always use `<label>` tags to describe inputs. The `for` attribute should match the input's `id`."
+    code: |
+      <form>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username">
+      </form>
+    visual:
+      type: "render"
+      content: "Label next to text input"
+    supplemental:
+      type: "tip"
+      title: "Why Labels Matter"
+      content: "Labels make forms accessible and user-friendly. Clicking the label focuses the input, giving users a larger click target."
+
+  - id: "step-9"
+    explanation: "The `name` attribute identifies the input data when submitted. The `placeholder` attribute shows hint text."
+    code: |
+      <form>
+        <label for="email">Email:</label>
+        <input type="email" 
+               id="email" 
+               name="user_email" 
+               placeholder="you@example.com">
+      </form>
+    visual:
+      type: "render"
+      content: "Email input with gray placeholder text"
+    supplemental:
+      type: "tip"
+      title: "Placeholder vs Label"
+      content: "Placeholders are hints that disappear when typing. Labels are permanent descriptions. Always use both!"
+
+  - id: "step-10"
+    explanation: "Different input types provide specialized keyboards and validation on mobile devices."
+    code: |
+      <form>
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age">
+        
+        <label for="birthday">Birthday:</label>
+        <input type="date" id="birthday" name="birthday">
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+      </form>
+    visual:
+      type: "render"
+      content: "Three different input types displayed"
+    supplemental:
+      type: "example"
+      title: "Type Benefits"
+      content: "type='email' shows @ on mobile keyboards, type='number' shows a number pad, type='password' hides characters."
+
+  - id: "step-11"
+    explanation: "The `<textarea>` tag creates a multi-line text input, perfect for comments or messages."
+    code: |
+      <label for="message">Message:</label>
+      <textarea id="message" 
+                name="message" 
+                rows="4" 
+                cols="50"></textarea>
+    visual:
+      type: "render"
+      content: "Larger multi-line text area"
+    supplemental:
+      type: "tip"
+      title: "Sizing Textareas"
+      content: "The rows and cols attributes set the size, but CSS gives you more control in real projects."
+
+  - id: "step-12"
+    explanation: "Checkboxes let users select multiple options. Each checkbox needs its own input with type='checkbox'."
+    code: |
+      <p>Select your interests:</p>
+      <input type="checkbox" id="sports" name="interests" value="sports">
+      <label for="sports">Sports</label>
+      
+      <input type="checkbox" id="music" name="interests" value="music">
+      <label for="music">Music</label>
+      
+      <input type="checkbox" id="art" name="interests" value="art">
+      <label for="art">Art</label>
+    visual:
+      type: "render"
+      content: "Three checkboxes with labels"
+    supplemental:
+      type: "tip"
+      title: "Value Attribute"
+      content: "The value attribute specifies what data is sent when the checkbox is selected."
