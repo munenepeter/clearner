@@ -20,16 +20,16 @@ function onRun(code: string) {
             <!-- Task Banner -->
             <div class="bg-chart-4 border-2 rounded-xl p-4 transition-all duration-300" :class="{
                 'border-primary/50': lessonRunner.taskCompleted.value,
-                'border-destructive/50': lessonRunner.taskFailed.value,
-                'border-accent/50': !lessonRunner.taskCompleted.value && !lessonRunner.taskFailed.value
+                'border-red-400': lessonRunner.taskFailed.value,
+                'border-muted': !lessonRunner.taskCompleted.value && !lessonRunner.taskFailed.value
             }">
                 <div class="flex items-start justify-between gap-3">
                     <div class="flex items-start space-x-3 flex-1 min-w-0">
-                        <div class="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm"
+                        <div class="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm"
                             :class="{
                                 'bg-primary text-primary-foreground': lessonRunner.taskCompleted.value,
                                 'bg-destructive text-destructive-foreground': lessonRunner.taskFailed.value,
-                                'bg-accent text-accent-foreground': !lessonRunner.taskCompleted.value && !lessonRunner.taskFailed.value
+                                'bg-muted text-accent-foreground': !lessonRunner.taskCompleted.value && !lessonRunner.taskFailed.value
                             }">
                             <!-- Initial/Pending State (Your Turn) -->
                             <svg v-if="!lessonRunner.taskCompleted.value && !lessonRunner.taskFailed.value"
@@ -66,8 +66,8 @@ function onRun(code: string) {
                                     }}
                                 </span>
                             </div>
-                            <p class="text-sm leading-relaxed break-words" :class="{
-                                'text-muted-foreground': lessonRunner.taskCompleted.value,
+                            <p class="text-sm leading-relaxed wrap-break-word" :class="{
+                                'text-primary/80': lessonRunner.taskCompleted.value,
                                 'text-red-300': lessonRunner.taskFailed.value,
                                 'text-muted': !lessonRunner.taskCompleted.value && !lessonRunner.taskFailed.value
                             }">
@@ -153,7 +153,7 @@ function onRun(code: string) {
                             </svg>
                             <div class="text-center sm:text-left">
                                 <div class="text-sm font-semibold text-primary mb-1">Focus On</div>
-                                <span class="text-lg font-bold text-foreground break-words">{{ visual.target }}</span>
+                                <span class="text-lg font-bold text-foreground wrap-break-word">{{ visual.target }}</span>
                             </div>
                         </div>
                     </div>

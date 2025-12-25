@@ -74,8 +74,8 @@ export class LessonRunner {
                 this.state.value = EngineState.SHOW_CODE;
                 break;
             case EngineState.SHOW_CODE:
-                // this.state.value = EngineState.WAIT_FOR_USER;
-                // break;
+                this.state.value = EngineState.WAIT_FOR_USER;
+                break;
             case EngineState.WAIT_FOR_USER:
             case EngineState.COMPLETE:
                 this.nextStep();
@@ -110,7 +110,7 @@ export class LessonRunner {
                 this.taskCompleted.value = true;
             } else {
                 this.taskFailed.value = true;
-                this.failMessage.value = "Hmm, That's odd";
+                this.failMessage.value = "Hmm, that's odd";
             }
         } else {
             // If no expected string, just mark as completed
