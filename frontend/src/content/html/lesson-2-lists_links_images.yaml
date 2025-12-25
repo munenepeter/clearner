@@ -18,7 +18,7 @@ steps:
       content: "Unordered: grocery shopping list. Ordered: recipe steps that must be done in sequence."
 
   - id: "step-2"
-    explanation: "An **unordered list** uses `<ul>` for the list container and `<li>` for each list item."
+    explanation: "An **unordered list** uses `&lt;ul&gt;` for the list container and `&lt;li&gt;` for each list item."
     code: |
       <ul>
         <li>Apples</li>
@@ -34,7 +34,7 @@ steps:
       content: "ul = Unordered List, li = List Item. Every <li> must be inside a <ul> or <ol>."
 
   - id: "step-3"
-    explanation: "An **ordered list** uses `<ol>` instead of `<ul>`. The browser automatically numbers the items."
+    explanation: "An **ordered list** uses `&lt;ol&gt;` instead of `&lt;ul&gt;`. The browser automatically numbers the items."
     code: |
       <ol>
         <li>Wake up</li>
@@ -68,7 +68,7 @@ steps:
       content: "Give each list a heading so readers know what the list is about."
 
   - id: "step-5"
-    explanation: "You can nest lists inside each other to create sub-lists. Just place a new `<ul>` or `<ol>` inside an `<li>`."
+    explanation: "You can nest lists inside each other to create sub-lists. Just place a new `&lt;ul&gt;` or `&lt;ol&gt;` inside an `&lt;li&gt;`."
     code: |
       <ul>
         <li>Fruits
@@ -93,7 +93,7 @@ steps:
       content: "Nested lists are like an outline in a document—main topics with supporting details underneath."
 
   - id: "step-6"
-    explanation: "Links are created with the `<a>` tag (anchor). The `href` attribute tells the browser where to go when clicked."
+    explanation: "Links are created with the `&lt;a&gt;` tag (anchor). The `href` attribute tells the browser where to go when clicked."
     code: |
       <a href="https://www.google.com">Click here to visit Google</a>
     visual:
@@ -105,7 +105,7 @@ steps:
       content: "href means 'hypertext reference'—it's the destination of your link."
 
   - id: "step-7"
-    explanation: "The text between `<a>` and `</a>` is what users see and click on. Make it descriptive!"
+    explanation: "The text between `&lt;a&gt;` and `&lt;/a&gt;` is what users see and click on. Make it descriptive!"
     code: |
       <!-- Bad: not descriptive -->
       <a href="https://www.example.com">Click here</a>
@@ -157,7 +157,7 @@ steps:
       content: "The <nav> tag is semantic HTML that indicates navigation links. It helps search engines and screen readers understand your page structure."
 
   - id: "step-11"
-    explanation: "Images are added with the `<img>` tag. It's self-closing and requires a `src` attribute (source) that points to the image file."
+    explanation: "Images are added with the `&lt;img&gt;` tag. It's self-closing and requires a `src` attribute (source) that points to the image file."
     code: |
       <img src="cat.jpg">
     visual:
@@ -190,7 +190,7 @@ steps:
       content: "Usually, set only width OR height (not both) to let the browser maintain the correct proportions. CSS is better for sizing in real projects."
 
   - id: "step-14"
-    explanation: "You can make images clickable by wrapping them in an `<a>` tag."
+    explanation: "You can make images clickable by wrapping them in an `&lt;a&gt;` tag."
     code: |
       <a href="https://www.example.com">
         <img src="logo.png" alt="Example Company Logo" width="150">
@@ -214,7 +214,7 @@ steps:
       content: "Using images from other websites (hotlinking) may be against their terms of service. For projects, download images or use free stock photo sites."
 
   - id: "step-16"
-    explanation: "The `<figure>` and `<figcaption>` tags let you add captions to images semantically."
+    explanation: "The `&lt;figure&gt;` and `&lt;figcaption&gt;` tags let you add captions to images semantically."
     code: |
       <figure>
         <img src="sunset.jpg" alt="Colorful sunset over mountains">

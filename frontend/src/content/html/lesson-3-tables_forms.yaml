@@ -8,7 +8,7 @@ topic: "HTML"
 title: "Organizing Data and Getting Input"
 steps:
   - id: "step-1"
-    explanation: "Tables display data in rows and columns, like a spreadsheet. The `<table>` tag creates the container."
+    explanation: "Tables display data in rows and columns, like a spreadsheet. The `&lt;table&gt;` tag creates the container."
     visual:
       type: "diagram"
       content: "Grid showing rows and columns"
@@ -18,7 +18,7 @@ steps:
       content: "Use tables for actual data (schedules, statistics, comparisons). Never use tables for page layout—that's what CSS is for!"
 
   - id: "step-2"
-    explanation: "Tables are built with rows using `<tr>` (table row) and cells using `<td>` (table data)."
+    explanation: "Tables are built with rows using `&lt;tr&gt;` (table row) and cells using `&lt;td&gt;` (table data)."
     code: |
       <table>
         <tr>
@@ -39,7 +39,7 @@ steps:
       content: "Think of it like building with blocks: table → rows → cells. Each <tr> represents one horizontal row."
 
   - id: "step-3"
-    explanation: "Use `<th>` (table header) instead of `<td>` for header cells. Browsers make these bold automatically."
+    explanation: "Use `&lt;th&gt;` (table header) instead of `&lt;td&gt;` for header cells. Browsers make these bold automatically."
     code: |
       <table>
         <tr>
@@ -82,7 +82,7 @@ steps:
       content: "Try a weekly schedule (days and activities), a comparison chart (products and features), or a gradebook (subjects and scores)."
 
   - id: "step-5"
-    explanation: "The `<thead>`, `<tbody>`, and `<tfoot>` tags help organize table sections semantically."
+    explanation: "The `&lt;thead&gt;`, `&lt;tbody&gt;`, and `&lt;tfoot&gt;` tags help organize table sections semantically."
     code: |
       <table>
         <thead>
@@ -114,7 +114,7 @@ steps:
       content: "These tags don't change appearance but add structure. They're especially useful for styling with CSS later."
 
   - id: "step-6"
-    explanation: "Forms collect user input. The `<form>` tag is the container. The `action` attribute says where to send the data."
+    explanation: "Forms collect user input. The `&lt;form&gt;` tag is the container. The `action` attribute says where to send the data."
     code: |
       <form action="/submit">
         <!-- Form inputs go here -->
@@ -125,7 +125,7 @@ steps:
       content: "When submitted, forms send data to a server. For now, we'll focus on building the form structure."
 
   - id: "step-7"
-    explanation: "The `<input>` tag creates input fields. The `type` attribute determines what kind of input it accepts."
+    explanation: "The `&lt;input&gt;` tag creates input fields. The `type` attribute determines what kind of input it accepts."
     code: |
       <form>
         <input type="text">
@@ -139,7 +139,7 @@ steps:
       content: "There are many input types: text, email, password, number, date, and more. We'll explore the most common ones."
 
   - id: "step-8"
-    explanation: "Always use `<label>` tags to describe inputs. The `for` attribute should match the input's `id`."
+    explanation: "Always use `&lt;label&gt;` tags to describe inputs. The `for` attribute should match the input's `id`."
     code: |
       <form>
         <label for="username">Username:</label>
@@ -193,7 +193,7 @@ steps:
       content: "type='email' shows @ on mobile keyboards, type='number' shows a number pad, type='password' hides characters."
 
   - id: "step-11"
-    explanation: "The `<textarea>` tag creates a multi-line text input, perfect for comments or messages."
+    explanation: "The `&lt;textarea&gt;` tag creates a multi-line text input, perfect for comments or messages."
     code: |
       <label for="message">Message:</label>
       <textarea id="message" 

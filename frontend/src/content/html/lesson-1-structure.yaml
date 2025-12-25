@@ -96,6 +96,15 @@ steps:
 
   - id: "step-7"
     explanation: "Practice time! Create a complete HTML skeleton with a title of your choice."
+    code: |
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>My First Page</title>
+        </head>
+        <body>
+        </body>
+      </html>
     task:
       instruction: "Create a full HTML structure with <!DOCTYPE html>, <html>, <head> with a <title>, and an empty <body>."
       expected: "<!DOCTYPE html>\n<html>\n<head>\n<title>.*</title>\n</head>\n<body>\n</body>\n</html>"
