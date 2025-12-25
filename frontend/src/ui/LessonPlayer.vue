@@ -57,11 +57,11 @@ const progressPercentage = computed(() => {
 const userProgressPercentage = computed(() => {
   const total = runner.currentLesson.value?.steps.length || 0;
   if (total === 0) return 0;
-  
-  const completed = runner.currentLesson.value?.steps.filter(step => 
+
+  const completed = runner.currentLesson.value?.steps.filter(step =>
     userState.isStepCompleted(step.id)
   ).length || 0;
-  
+
   return (completed / total) * 100;
 });
 </script>
@@ -72,20 +72,36 @@ const userProgressPercentage = computed(() => {
     <div class="bg-card border-b border-border shadow-sm sticky top-0 z-10">
       <div class="max-w-full mx-auto px-4 sm:px-6 py-3">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <!-- Logo & Title -->
-          <div class="flex items-center space-x-3">
-            <div class="flex items-center justify-center w-9 h-9 bg-linear-to-br from-primary to-primary/80 rounded-lg shadow-sm">
-              <svg class="w-5 h-5 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>
+          <!-- User & Lesson Info -->
+          <div class="flex items-center space-x-4 min-w-0 flex-1">
+            <!-- User Profile (Simple) -->
+            <div
+              class="hidden md:flex items-center space-x-2 px-3 py-1.5 bg-accent/20 rounded-full border border-accent/20">
+              <div
+                class="w-6 h-6 rounded-full bg-linear-to-br from-primary to-primary/80 flex items-center justify-center text-xs text-primary-foreground font-bold">
+                {{ userState.username.charAt(0).toUpperCase() }}
+              </div>
+              <span class="text-sm font-medium text-foreground truncate max-w-[100px]">
+                {{ userState.username }}
+              </span>
             </div>
-            <div class="min-w-0 flex-1">
-              <h1 class="text-lg font-bold text-foreground truncate">
-                {{ runner.currentLesson.value?.title || 'Loading Lesson...' }}
+
+            <div class="h-8 w-px bg-border hidden md:block"></div>
+
+            <!-- Context Info -->
+            <div class="min-w-0 flex-1 flex flex-col justify-center">
+              <div class="flex items-center space-x-2 text-xs text-muted-foreground">
+                <span class="font-semibold text-primary uppercase tracking-wider text-[10px]">
+                  {{ runner.currentLesson.value?.topic || 'Course' }}
+                </span>
+                <span>/</span>
+                <span class="truncate">
+                  Concept: {{ runner.currentStep.value?.title || runner.currentStep.value?.id || 'Loading...' }}
+                </span>
+              </div>
+              <h1 class="text-sm sm:text-base font-bold text-foreground truncate leading-tight">
+                {{ runner.currentLesson.value?.title || 'Interactive Lesson' }}
               </h1>
-              <p class="text-xs text-muted-foreground truncate">
-                {{ runner.currentLesson.value?.topic || 'Interactive Coding Tutorial' }}
-              </p>
             </div>
           </div>
 
@@ -103,39 +119,32 @@ const userProgressPercentage = computed(() => {
               </div>
               <div class="flex-1 sm:w-32">
                 <div class="w-full h-2 bg-muted rounded-full overflow-hidden">
-                  <div 
+                  <div
                     class="h-full bg-gradient-to-r from-primary to-primary/80 rounded-full transition-all duration-500 ease-out"
-                    :style="{ width: progressPercentage + '%' }"
-                  ></div>
+                    :style="{ width: progressPercentage + '%' }"></div>
                 </div>
                 <div class="w-full h-1 mt-1 bg-muted/30 rounded-full overflow-hidden">
-                  <div 
+                  <div
                     class="h-full bg-gradient-to-r from-accent to-accent/70 rounded-full transition-all duration-700 ease-out"
-                    :style="{ width: userProgressPercentage + '%' }"
-                  ></div>
+                    :style="{ width: userProgressPercentage + '%' }"></div>
                 </div>
               </div>
             </div>
 
             <!-- Navigation Buttons -->
             <div class="flex items-center space-x-2 w-full sm:w-auto">
-              <button 
-                @click="runner.previousStep()" 
-                :disabled="!canGoPrevious"
-                class="flex-1 sm:flex-none px-4 py-2 text-sm font-medium text-foreground bg-card border border-border rounded-lg hover:bg-accent hover:border-accent disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-card disabled:hover:border-border transition-all duration-200 flex items-center justify-center space-x-1"
-              >
+              <button @click="runner.previousStep()" :disabled="!canGoPrevious"
+                class="flex-1 sm:flex-none px-4 py-2 text-sm font-medium text-foreground bg-card border border-border rounded-lg hover:bg-accent hover:border-accent disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-card disabled:hover:border-border transition-all duration-200 flex items-center justify-center space-x-1">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
                 <span class="hidden sm:inline">Previous</span>
               </button>
-              
-              <button 
-                @click="runner.next()" 
-                :disabled="!canGoNext"
-                class="flex-1 sm:flex-none px-4 py-2 text-sm font-medium text-primary-foreground bg-gradient-to-r from-primary to-primary/90 rounded-lg hover:from-primary/90 hover:to-primary shadow-sm hover:shadow disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:from-primary disabled:hover:to-primary/90 transition-all duration-200 flex items-center justify-center space-x-1"
-              >
-                <span>{{ runner.currentStep.value?.task && !runner.taskCompleted.value ? 'Complete Task' : 'Next' }}</span>
+
+              <button @click="runner.next()" :disabled="!canGoNext"
+                class="flex-1 sm:flex-none px-4 py-2 text-sm font-medium text-primary-foreground bg-gradient-to-r from-primary to-primary/90 rounded-lg hover:from-primary/90 hover:to-primary shadow-sm hover:shadow disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:from-primary disabled:hover:to-primary/90 transition-all duration-200 flex items-center justify-center space-x-1">
+                <span>{{ runner.currentStep.value?.task && !runner.taskCompleted.value ? 'Complete Task' : 'Next'
+                }}</span>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
@@ -149,37 +158,29 @@ const userProgressPercentage = computed(() => {
     <!-- Main Content Area -->
     <div class="flex-1 overflow-hidden p-3 sm:p-4 lg:p-6">
       <div class="h-full grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
-        
+
         <!-- Standard Layout: Instructions + Visualizer (Left), Code (Right) -->
         <template v-if="!isTaskMode">
           <!-- Left Panel -->
           <div class="flex flex-col gap-4 lg:gap-6 h-full min-h-0">
             <!-- Instruction Panel -->
-            <div class="flex-shrink-0 min-h-0" :class="runner.currentStep.value?.visual ? 'h-auto max-h-[40%]' : 'h-full'">
-              <InstructionPanel 
-                :text="runner.currentStep.value?.explanation" 
-                :topic="runner.currentLesson.value?.topic"
-                :supplemental="runner.currentStep.value?.supplemental"
-              />
+            <div class="flex-shrink-0 min-h-0"
+              :class="runner.currentStep.value?.visual ? 'h-auto max-h-[40%]' : 'h-full'">
+              <InstructionPanel :text="runner.currentStep.value?.explanation" :topic="runner.currentLesson.value?.topic"
+                :supplemental="runner.currentStep.value?.supplemental" />
             </div>
-            
+
             <!-- Visualizer -->
             <div v-if="runner.currentStep.value?.visual" class="flex-1 min-h-0">
-              <Visualizer 
-                :visual="runner.currentStep.value?.visual" 
-                :task="runner.currentStep.value?.task"
-              />
+              <Visualizer :visual="runner.currentStep.value?.visual" :task="runner.currentStep.value?.task" />
             </div>
           </div>
-          
+
           <!-- Right Panel: Code Display -->
           <div class="h-full min-h-0">
-            <CodePanel 
-              :code="runner.currentStep.value?.code" 
-              :visible="runner.state.value === EngineState.SHOW_CODE || 
-                        runner.state.value === EngineState.WAIT_FOR_USER || 
-                        runner.state.value === EngineState.COMPLETE"
-            />
+            <CodePanel :code="runner.currentStep.value?.code" :visible="runner.state.value === EngineState.SHOW_CODE ||
+              runner.state.value === EngineState.WAIT_FOR_USER ||
+              runner.state.value === EngineState.COMPLETE" />
           </div>
         </template>
 
@@ -189,28 +190,19 @@ const userProgressPercentage = computed(() => {
           <div class="flex flex-col gap-4 lg:gap-6 h-full min-h-0">
             <!-- Instruction Panel -->
             <div class="flex-shrink-0 max-h-[40%] min-h-0">
-              <InstructionPanel 
-                :text="runner.currentStep.value?.explanation" 
-                :topic="runner.currentLesson.value?.topic"
-                :supplemental="runner.currentStep.value?.supplemental"
-              />
+              <InstructionPanel :text="runner.currentStep.value?.explanation" :topic="runner.currentLesson.value?.topic"
+                :supplemental="runner.currentStep.value?.supplemental" />
             </div>
 
-             <!-- Code Panel (Reference) -->
+            <!-- Code Panel (Reference) -->
             <div class="flex-1 min-h-0">
-              <CodePanel 
-                :code="runner.currentStep.value?.code" 
-                :visible="true"
-              />
+              <CodePanel :code="runner.currentStep.value?.code" :visible="true" />
             </div>
           </div>
 
           <!-- Right Panel: Playground -->
           <div class="h-full min-h-0">
-             <Visualizer 
-                :visual="runner.currentStep.value?.visual" 
-                :task="runner.currentStep.value?.task"
-              />
+            <Visualizer :visual="runner.currentStep.value?.visual" :task="runner.currentStep.value?.task" />
           </div>
         </template>
 
@@ -224,17 +216,21 @@ const userProgressPercentage = computed(() => {
           <div class="flex items-center space-x-1">
             <div :class="[
               'w-2 h-2 rounded-full',
-              runner.currentStep.value?.task 
-                ? runner.taskCompleted.value 
-                  ? 'bg-green-500 animate-pulse' 
-                  : 'bg-amber-500'
+              runner.currentStep.value?.task
+                ? runner.taskCompleted.value
+                  ? 'bg-green-500 animate-pulse'
+                  : runner.taskFailed.value
+                    ? 'bg-red-500 animate-bounce'
+                    : 'bg-amber-500'
                 : 'bg-primary'
             ]"></div>
             <span>
-              {{ runner.currentStep.value?.task 
-                ? runner.taskCompleted.value 
-                  ? 'Task completed!' 
-                  : 'Task pending'
+              {{ runner.currentStep.value?.task
+                ? runner.taskCompleted.value
+                  ? 'Task completed!'
+                  : runner.taskFailed.value
+                    ? runner.failMessage.value || 'Not quite right yet'
+                    : 'Task pending'
                 : 'Learning mode' }}
             </span>
           </div>

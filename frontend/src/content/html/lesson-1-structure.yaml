@@ -31,6 +31,8 @@ steps:
 
   - id: "step-3"
     explanation: "Now it's your turn. Type the doctype declaration in the editor to proceed."
+    code: |
+      <!DOCTYPE html>
     task:
       instruction: "Type '<!DOCTYPE html>' in the editor and click Run."
       expected: "<!DOCTYPE html>"

@@ -18,31 +18,59 @@ function onRun(code: string) {
         <!-- Task Mode: Show Playground with Task Banner -->
         <div v-if="task" class="h-full flex flex-col space-y-3">
             <!-- Task Banner -->
-            <div class="bg-chart-4 border-2 rounded-xl p-4 transition-all duration-300"
-                :class="lessonRunner.taskCompleted.value ? 'border-primary/50' : 'border-accent/50'">
+            <div class="bg-chart-4 border-2 rounded-xl p-4 transition-all duration-300" :class="{
+                'border-primary/50': lessonRunner.taskCompleted.value,
+                'border-destructive/50': lessonRunner.taskFailed.value,
+                'border-accent/50': !lessonRunner.taskCompleted.value && !lessonRunner.taskFailed.value
+            }">
                 <div class="flex items-start justify-between gap-3">
                     <div class="flex items-start space-x-3 flex-1 min-w-0">
                         <div class="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 shadow-sm"
-                            :class="lessonRunner.taskCompleted.value ? 'bg-primary text-primary-foreground' : 'bg-accent text-accent-foreground'">
-                            <svg v-if="!lessonRunner.taskCompleted.value" class="w-4 h-4" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
+                            :class="{
+                                'bg-primary text-primary-foreground': lessonRunner.taskCompleted.value,
+                                'bg-destructive text-destructive-foreground': lessonRunner.taskFailed.value,
+                                'bg-accent text-accent-foreground': !lessonRunner.taskCompleted.value && !lessonRunner.taskFailed.value
+                            }">
+                            <!-- Initial/Pending State (Your Turn) -->
+                            <svg v-if="!lessonRunner.taskCompleted.value && !lessonRunner.taskFailed.value"
+                                class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                            <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                            <!-- Success State -->
+                            <svg v-else-if="lessonRunner.taskCompleted.value" class="w-4 h-4" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
+
+                            <!-- Fail State -->
+                            <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
                         </div>
+
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center space-x-2 mb-1">
-                                <span class="text-xs font-bold uppercase tracking-wider"
-                                    :class="lessonRunner.taskCompleted.value ? 'text-primary' : 'text-accent'">
-                                    {{ lessonRunner.taskCompleted.value ? '✓ Task Completed' : 'Your Turn!' }}
+                                <span class="text-xs font-bold uppercase tracking-wider" :class="{
+                                    'text-primary': lessonRunner.taskCompleted.value,
+                                    'text-red-200': lessonRunner.taskFailed.value,
+                                    'text-muted': !lessonRunner.taskCompleted.value && !lessonRunner.taskFailed.value
+                                }">
+                                    {{
+                                        lessonRunner.taskCompleted.value ? '✓ Task Completed' :
+                                            lessonRunner.taskFailed.value ? 'Try Again' :
+                                                'Your Turn!'
+                                    }}
                                 </span>
                             </div>
-                            <p class="text-sm leading-relaxed break-words"
-                                :class="lessonRunner.taskCompleted.value ? 'text-accent' : 'text-accent'">
+                            <p class="text-sm leading-relaxed break-words" :class="{
+                                'text-muted-foreground': lessonRunner.taskCompleted.value,
+                                'text-red-300': lessonRunner.taskFailed.value,
+                                'text-muted': !lessonRunner.taskCompleted.value && !lessonRunner.taskFailed.value
+                            }">
                                 {{ task.instruction }}
                             </p>
                         </div>
@@ -57,6 +85,17 @@ function onRun(code: string) {
                                 clip-rule="evenodd" />
                         </svg>
                         <span class="text-xs font-bold">Success!</span>
+                    </div>
+
+                    <!-- Fail Badge -->
+                    <div v-else-if="lessonRunner.taskFailed.value"
+                        class="flex items-center space-x-2 px-3 py-1.5 bg-destructive text-destructive-foreground rounded-lg shadow-sm animate-pulse shrink-0">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span class="text-xs font-bold">{{ lessonRunner.failMessage.value }}</span>
                     </div>
                 </div>
             </div>
@@ -132,8 +171,9 @@ function onRun(code: string) {
                             </svg>
                             <div class="text-center">
                                 <div class="text-sm font-semibold text-accent-foreground mb-1">New Code</div>
-                                <span class="text-lg font-bold text-accent-foreground font-mono break-all">{{ visual.content
-                                }}</span>
+                                <span class="text-lg font-bold text-accent-foreground font-mono break-all">{{
+                                    visual.content
+                                    }}</span>
                             </div>
                         </div>
                     </div>
@@ -142,10 +182,8 @@ function onRun(code: string) {
                 <!-- Default Empty Browser View -->
                 <div v-else class="h-full flex items-center justify-center p-8">
                     <div class="text-center max-w-md">
-                        <div
-                            class="w-20 h-20 mx-auto mb-6 bg-primary/10 rounded-2xl flex items-center justify-center">
-                            <svg class="w-10 h-10 text-primary" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
+                        <div class="w-20 h-20 mx-auto mb-6 bg-primary/10 rounded-2xl flex items-center justify-center">
+                            <svg class="w-10 h-10 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>

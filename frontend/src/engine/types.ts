@@ -20,6 +20,7 @@ export interface Task {
 
 export interface Step {
     id: string;
+    title?: string;
     explanation: string;
     code?: string;
     visual?: Visualization;

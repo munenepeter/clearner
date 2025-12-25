@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 const props = defineProps<{
   initialCode?: string;
@@ -13,7 +13,13 @@ const emit = defineEmits<{
 
 const code = ref(props.initialCode || '');
 const iframeRef = ref<HTMLIFrameElement | null>(null);
+const textareaRef = ref<HTMLTextAreaElement | null>(null);
+const lineNumbersRef = ref<HTMLDivElement | null>(null);
 const isRunning = ref(false);
+const showPasteAlert = ref(false);
+const showNoVisibleContentWarning = ref(false);
+
+const lineCount = computed(() => code.value.split('\n').length);
 
 watch(() => props.initialCode, (newCode) => {
   if (newCode !== undefined && newCode !== code.value) {
@@ -22,10 +28,30 @@ watch(() => props.initialCode, (newCode) => {
   }
 });
 
+function handlePaste(e: ClipboardEvent) {
+  // Prevent paste
+  e.preventDefault();
+
+  // Show alert
+  showPasteAlert.value = true;
+
+  // Hide alert after 3 seconds
+  setTimeout(() => {
+    showPasteAlert.value = false;
+  }, 4000);
+}
+
+function handleScroll() {
+  if (textareaRef.value && lineNumbersRef.value) {
+    lineNumbersRef.value.scrollTop = textareaRef.value.scrollTop;
+  }
+}
+
 function runCode() {
   if (!iframeRef.value) return;
 
   isRunning.value = true;
+  showNoVisibleContentWarning.value = false;
 
   const doc = iframeRef.value.contentWindow?.document;
   if (!doc) {
@@ -78,10 +104,26 @@ function runCode() {
   const tempDiv = document.createElement('div');
   tempDiv.innerHTML = content;
 
-  doc.body.replaceChildren(tempDiv);
+  // Clear document and write new content
+  doc.write(content);
   doc.close();
 
+  // Check for visible content after a short delay to allow rendering
   setTimeout(() => {
+    if (props.language === 'html' || !props.language) {
+      const bodyText = doc.body?.innerText?.trim() || '';
+      // Also check if there are any visual elements that might not have text (like images or colored divs)
+      // For now, a simple text check + child check is a reasonable heuristic for "invisible"
+      const hasChildren = doc.body?.children?.length > 0;
+
+      // Heuristic: If body is empty of text AND has no significant children, it might be "invisible"
+      // But user specifically asked about checks for things "not in the body" like title
+      // If the code contains <title> but body is empty, that's a good signal.
+
+      if (!bodyText && !hasChildren && code.value.trim().length > 0) {
+        showNoVisibleContentWarning.value = true;
+      }
+    }
     isRunning.value = false;
   }, 300);
 
@@ -132,10 +174,26 @@ onMounted(() => {
     </div>
 
     <!-- Editor & Preview Split -->
-    <div class="flex-1 flex flex-col lg:flex-row min-h-0">
+    <div class="flex-1 flex flex-col lg:flex-row min-h-0 relative">
+      <!-- Paste Alert Overlay -->
+      <div v-if="showPasteAlert" class="absolute inset-x-0 top-4 z-50 flex justify-center pointer-events-none">
+        <div
+          class="bg-amber-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-3 pointer-events-auto animate-bounce">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+          <div>
+            <p class="font-bold">No Pasting Allowed!</p>
+            <p class="text-xs opacity-90">Type it out yourself - you'll grasp the concept faster.</p>
+          </div>
+        </div>
+      </div>
+
       <!-- Editor Section -->
-      <div class="flex-1 flex flex-col border-b lg:border-b-0 lg:border-r border-gray-200 bg-gray-50">
-        <div class="bg-gray-100 px-4 py-2 border-b border-gray-200 flex items-center justify-between">
+      <div
+        class="flex-1 flex flex-col border-b lg:border-b-0 lg:border-r border-gray-200 bg-gray-50 min-h-0 h-1/2 lg:h-full">
+        <div class="bg-gray-100 px-4 py-2 border-b border-gray-200 flex items-center justify-between shrink-0">
           <span class="text-xs font-semibold text-gray-600 uppercase tracking-wider flex items-center space-x-2">
             <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -146,14 +204,23 @@ onMounted(() => {
           <span class="text-xs text-gray-500">{{ code.split('\n').length }} lines</span>
         </div>
 
-        <textarea v-model="code"
-          class="flex-1 w-full p-4 font-mono text-sm bg-gray-900 text-gray-100 resize-none focus:outline-none focus:ring-2 focus:ring-inset focus:ring-slate-500"
-          placeholder="Type your code here..." spellcheck="false"></textarea>
+        <div class="flex-1 flex overflow-hidden relative">
+          <!-- Line Numbers -->
+          <div ref="lineNumbersRef"
+            class="w-10 bg-gray-200 border-r border-gray-300 pt-4 pb-4 px-2 text-right select-none overflow-hidden text-gray-400 font-mono text-sm leading-6">
+            <div v-for="n in lineCount" :key="n">{{ n }}</div>
+          </div>
+
+          <!-- Textarea -->
+          <textarea ref="textareaRef" v-model="code" @scroll="handleScroll" @paste="handlePaste"
+            class="flex-1 w-full p-4 font-mono text-sm bg-gray-900 text-gray-100 resize-none focus:outline-none focus:ring-0 ring-0 leading-6 whitespace-pre"
+            placeholder="Type your code here..." spellcheck="false"></textarea>
+        </div>
       </div>
 
       <!-- Preview Section -->
-      <div class="flex-1 flex flex-col bg-white">
-        <div class="bg-gray-100 px-4 py-2 border-b border-gray-200 flex items-center justify-between">
+      <div class="flex-1 flex flex-col bg-white min-h-0 h-1/2 lg:h-full relative">
+        <div class="bg-gray-100 px-4 py-2 border-b border-gray-200 flex items-center justify-between shrink-0">
           <span class="text-xs font-semibold text-gray-600 uppercase tracking-wider flex items-center space-x-2">
             <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -169,15 +236,36 @@ onMounted(() => {
           </div>
         </div>
 
-        <div class="flex-1 relative bg-white overflow-auto">
+        <div class="flex-1 relative bg-white overflow-hidden">
           <iframe ref="iframeRef" class="w-full h-full border-none" title="Preview"
             sandbox="allow-scripts allow-same-origin"></iframe>
+
+          <!-- No Visible Content Warning -->
+          <div v-if="showNoVisibleContentWarning"
+            class="absolute bottom-4 right-4 max-w-xs bg-blue-50 border-blue-400 p-4 shadow-lg rounded animate-fade-in-up transition-all duration-300">
+            <div class="flex">
+              <div class="shrink-0">
+                <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                  fill="currentColor">
+                  <path fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                    clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <p class="text-sm text-blue-700">
+                  <span class="font-bold">Hey:</span> everything is working, you are not seeing anything cause tags like &lt;title&gt; don't appear in the
+                  page body.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Footer with helpful tips -->
-    <div class="bg-gray-50 px-4 py-2 border-t border-gray-200">
+    <div class="bg-gray-50 px-4 py-2 border-t border-gray-200 shrink-0">
       <div class="flex items-center justify-between text-xs text-gray-600">
         <div class="flex items-center space-x-4">
           <span class="flex items-center space-x-1">

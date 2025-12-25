@@ -12,6 +12,8 @@ export class LessonRunner {
     // Task state
     userCode = ref('');
     taskCompleted = ref(false);
+    taskFailed = ref(false);
+    failMessage = ref('');
 
     // Computed properties helpers
     currentStep = computed(() => {
@@ -41,6 +43,8 @@ export class LessonRunner {
 
         // Reset task state
         this.taskCompleted.value = false;
+        this.taskFailed.value = false;
+        this.failMessage.value = '';
         this.userCode.value = this.currentStep.value.task?.starterCode || '';
 
         // Transition mechanism
@@ -70,8 +74,8 @@ export class LessonRunner {
                 this.state.value = EngineState.SHOW_CODE;
                 break;
             case EngineState.SHOW_CODE:
-                this.state.value = EngineState.WAIT_FOR_USER;
-                break;
+                // this.state.value = EngineState.WAIT_FOR_USER;
+                // break;
             case EngineState.WAIT_FOR_USER:
             case EngineState.COMPLETE:
                 this.nextStep();
@@ -91,20 +95,26 @@ export class LessonRunner {
 
     checkTask(code: string) {
         this.userCode.value = code;
+
+        // Reset both states first
+        this.taskCompleted.value = false;
+        this.taskFailed.value = false;
+        this.failMessage.value = '';
+
         const task = this.currentStep.value?.task;
 
         if (!task) return;
 
-        // Simple check: does the code contain the expected string?
-        // In production, this would be a robust AST check or similar.
         if (task.expected) {
-            // Unsafe but simple check for now
             if (code.includes(task.expected)) {
                 this.taskCompleted.value = true;
+            } else {
+                this.taskFailed.value = true;
+                this.failMessage.value = "Hmm, That's odd";
             }
         } else {
-            // logic if no specific expectation? maybe just running it is enough?
-            // for now, require expected string
+            // If no expected string, just mark as completed
+            this.taskCompleted.value = true;
         }
     }
 
