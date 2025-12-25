@@ -1,0 +1,89 @@
+id: "html-01-structure"
+topic: "HTML"
+title: "The Skeleton of the Web"
+steps:
+  - id: "step-1"
+    explanation: "HTML stands for **H**yper**T**ext **M**arkup **L**anguage. It is the code that organizes a web page's content, like the skeleton of a body."
+    visual:
+      type: "highlight"
+      target: "skeleton"
+      content: "HTML Structure"
+    supplemental:
+      type: "example"
+      title: "Real Life Analogy"
+      content: "Think of HTML like the frame of a house. It holds everything together but doesn't have paint (CSS) or electricity (JavaScript) yet."
+  
+  - id: "step-2"
+    explanation: "Every modern HTML file must start with a `&lt;!DOCTYPE html&gt;` declaration. This tells the browser to use the latest HTML5 standard."
+    code: |
+      <!DOCTYPE html>
+    visual:
+      type: "appear"
+      content: "<!DOCTYPE html>"
+    supplemental:
+      type: "tip"
+      title: "Beginner's Tip"
+      content: "Always include this line first. Without it, some browsers might display your page incorrectly! It's not an HTML tag, but an instruction to the web browser."
+
+  - id: "step-3"
+    explanation: "Now it's your turn. Type the doctype declaration in the editor to proceed."
+    task:
+      instruction: "Type '<!DOCTYPE html>' in the editor and click Run."
+      expected: "<!DOCTYPE html>"
+      starterCode: ""
+    supplemental:
+      type: "tip"
+      title: "Pro Tip"
+      content: "The declaration is not case sensitive, but it's a convention to write 'DOCTYPE' in uppercase."
+
+  - id: "step-4"
+    explanation: "The `&lt;html&gt;` element is the root of the document. Everything else lives inside it."
+    code: |
+      <!DOCTYPE html>
+      <html>
+        
+      </html>
+    visual:
+      type: "appear"
+      content: "<html>...</html>"
+    supplemental:
+      type: "example"
+      title: "Visual Analogy"
+      content: "It's like the cover of a book. Everything inside the book must be between the front <html> and back </html> cover."
+
+  - id: "step-5"
+    explanation: "Inside `&lt;html&gt;`, we have two main parts: `&lt;head&gt;` and `&lt;body&gt;`.\n\nThe `&lt;head&gt;` contains information **about** the page, like the title."
+    code: |
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>My First Page</title>
+        </head>
+      </html>
+    visual:
+      type: "highlight"
+      target: "head"
+    supplemental:
+      type: "example"
+      title: "The Brain vs. The Body"
+      content: "The <head> is like your brain (thoughts, memories, instructions). The <body> is like your physical body (what people see)."
+
+  - id: "step-6"
+    explanation: "The `&lt;body&gt;` contains the content that users **actually see**, like text, images, and buttons."
+    code: |
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>My First Page</title>
+        </head>
+        <body>
+          <h1>Hello World!</h1>
+        </body>
+      </html>
+    visual:
+      type: "highlight"
+      target: "body"
+    supplemental:
+      type: "example"
+      title: "The Stage"
+      content: "Think of the <body> as the stage of a theater. The actors, props, and scenery go here for the audience to see."

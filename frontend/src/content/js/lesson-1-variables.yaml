@@ -1,0 +1,25 @@
+id: "js-01-variables"
+topic: "JavaScript"
+title: "The Brains: JavaScript"
+steps:
+  - id: "step-1"
+    explanation: "JavaScript (JS) makes web pages interactive. It's the 'brain' that handles logic, clicks, and updates."
+    visual:
+      type: "highlight"
+      target: "script"
+
+  - id: "step-2"
+    explanation: "A **Variable** is like a box where you can store information. We use `let` to create one."
+    code: |
+      let message;
+    visual:
+      type: "appear"
+      content: "let message"
+  
+  - id: "step-3"
+    explanation: "We can put data into the box using the equals sign `=`. This is called **assignment**."
+    code: |
+      let message = "Hello World";
+    visual:
+      type: "highlight"
+      target: "assignment"
