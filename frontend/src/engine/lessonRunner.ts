@@ -68,10 +68,14 @@ export class LessonRunner {
         // State transitions based on current state
         switch (this.state.value) {
             case EngineState.EXPLAIN:
-                this.state.value = EngineState.ANIMATE;
-                break;
             case EngineState.ANIMATE:
+                // Fast forward to show code + wait for user
                 this.state.value = EngineState.SHOW_CODE;
+                // In this optimized flow, we might want to just go to complete/next step
+                // depending on if there is a task.
+                // If there is no task, we can just go to next step?
+                // Let's stick to the plan: consolidated state.
+                this.state.value = EngineState.WAIT_FOR_USER;
                 break;
             case EngineState.SHOW_CODE:
                 this.state.value = EngineState.WAIT_FOR_USER;

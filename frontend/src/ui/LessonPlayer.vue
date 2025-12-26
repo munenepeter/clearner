@@ -67,7 +67,7 @@ const userProgressPercentage = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col h-screen bg-linear-to-br from-background via-secondary to-accent/10 font-sans">
+  <div class="flex flex-col h-full bg-linear-to-br from-background via-secondary to-accent/10 font-sans">
     <!-- Top Navigation Bar -->
     <div class="bg-card border-b border-border shadow-sm sticky top-0 z-10">
       <div class="max-w-full mx-auto px-4 sm:px-6 py-3">

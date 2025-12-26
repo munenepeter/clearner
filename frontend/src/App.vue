@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import LessonPlayer from './ui/LessonPlayer.vue';
+import Sidebar from './ui/Sidebar.vue';
 </script>
 
 <template>
-  <div class="min-h-screen bg-linear-to-br from-background via-secondary to-accent/20">
-    <LessonPlayer />
+  <div class="flex h-screen overflow-hidden bg-linear-to-br from-background via-secondary to-accent/20">
+    <Sidebar />
+    <main class="flex-1 flex flex-col relative overflow-hidden">
+      <LessonPlayer />
+    </main>
   </div>
 </template>
 
