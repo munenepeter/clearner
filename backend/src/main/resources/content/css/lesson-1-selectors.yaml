@@ -1,0 +1,29 @@
+id: "css-01-selectors"
+topic: "CSS"
+title: "Styling with CSS"
+steps:
+  - id: "step-1"
+    explanation: "CSS stands for **C**ascading **S**tyle **S**heets. While HTML is the skeleton, CSS is the skin and clothing—it makes things look good."
+    visual:
+      type: "highlight"
+      target: "style"
+
+  - id: "step-2"
+    explanation: "To style an element, we need to **select** it. To assume we want to style all `<h1>` tags, we use the `h1` selector."
+    code: |
+      h1 {
+        
+      }
+    visual:
+      type: "appear"
+      content: "h1 selector"
+  
+  - id: "step-3"
+    explanation: "Inside the curly braces `{}`, we define **properties**. Let's change the color to blue."
+    code: |
+      h1 {
+        color: blue;
+      }
+    visual:
+      type: "highlight"
+      target: "h1-color"

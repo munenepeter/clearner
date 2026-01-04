@@ -1,0 +1,249 @@
+
+# ==========================================
+# LESSON 2: LISTS, LINKS & IMAGES
+# ==========================================
+
+id: "html-02-lists-links-images"
+topic: "HTML"
+title: "Connecting and Displaying Content"
+steps:
+  - id: "step-1"
+    explanation: "Lists help organize information. HTML has two main types: **unordered lists** (bullet points) and **ordered lists** (numbered)."
+    visual:
+      type: "split"
+      content: "Bullet list vs Numbered list"
+    supplemental:
+      type: "example"
+      title: "Everyday Lists"
+      content: "Unordered: grocery shopping list. Ordered: recipe steps that must be done in sequence."
+
+  - id: "step-2"
+    explanation: "An **unordered list** uses `&lt;ul&gt;` for the list container and `&lt;li&gt;` for each list item."
+    code: |
+      <ul>
+        <li>Apples</li>
+        <li>Oranges</li>
+        <li>Bananas</li>
+      </ul>
+    visual:
+      type: "render"
+      content: "Bullet-pointed list of fruits"
+    supplemental:
+      type: "tip"
+      title: "Remember"
+      content: "ul = Unordered List, li = List Item. Every <li> must be inside a <ul> or <ol>."
+
+  - id: "step-3"
+    explanation: "An **ordered list** uses `&lt;ol&gt;` instead of `&lt;ul&gt;`. The browser automatically numbers the items."
+    code: |
+      <ol>
+        <li>Wake up</li>
+        <li>Brush teeth</li>
+        <li>Eat breakfast</li>
+      </ol>
+    visual:
+      type: "render"
+      content: "Numbered list of morning routine"
+    supplemental:
+      type: "example"
+      title: "When to Use Ordered Lists"
+      content: "Use <ol> when the order matters: recipes, directions, rankings, or any step-by-step process."
+
+  - id: "step-4"
+    explanation: "Practice time! Create both an unordered list of your favorite foods and an ordered list of your daily routine."
+    task:
+      instruction: "Create one <ul> with 3 items and one <ol> with 3 items."
+      expected: "<ul>.*<li>.*</li>.*<li>.*</li>.*<li>.*</li>.*</ul>.*<ol>.*<li>.*</li>.*<li>.*</li>.*<li>.*</li>.*</ol>"
+      starterCode: |
+        <body>
+          <h2>My Favorite Foods</h2>
+          <!-- Create unordered list here -->
+          
+          <h2>My Morning Routine</h2>
+          <!-- Create ordered list here -->
+        </body>
+    supplemental:
+      type: "tip"
+      title: "List Organization"
+      content: "Give each list a heading so readers know what the list is about."
+
+  - id: "step-5"
+    explanation: "You can nest lists inside each other to create sub-lists. Just place a new `&lt;ul&gt;` or `&lt;ol&gt;` inside an `&lt;li&gt;`."
+    code: |
+      <ul>
+        <li>Fruits
+          <ul>
+            <li>Apples</li>
+            <li>Oranges</li>
+          </ul>
+        </li>
+        <li>Vegetables
+          <ul>
+            <li>Carrots</li>
+            <li>Broccoli</li>
+          </ul>
+        </li>
+      </ul>
+    visual:
+      type: "render"
+      content: "Nested bullet list with indentation"
+    supplemental:
+      type: "example"
+      title: "Outline Structure"
+      content: "Nested lists are like an outline in a document—main topics with supporting details underneath."
+
+  - id: "step-6"
+    explanation: "Links are created with the `&lt;a&gt;` tag (anchor). The `href` attribute tells the browser where to go when clicked."
+    code: |
+      <a href="https://www.google.com">Click here to visit Google</a>
+    visual:
+      type: "render"
+      content: "Clickable blue underlined link"
+    supplemental:
+      type: "tip"
+      title: "href Stands For"
+      content: "href means 'hypertext reference'—it's the destination of your link."
+
+  - id: "step-7"
+    explanation: "The text between `&lt;a&gt;` and `&lt;/a&gt;` is what users see and click on. Make it descriptive!"
+    code: |
+      <!-- Bad: not descriptive -->
+      <a href="https://www.example.com">Click here</a>
+      
+      <!-- Good: tells users where they're going -->
+      <a href="https://www.example.com">Visit our example page</a>
+    supplemental:
+      type: "tip"
+      title: "Accessibility Matters"
+      content: "Screen reader users often navigate by jumping between links. Descriptive link text helps them understand where each link goes."
+
+  - id: "step-8"
+    explanation: "By default, links open in the same tab. Use `target=\"_blank\"` to open links in a new tab."
+    code: |
+      <a href="https://www.wikipedia.org" target="_blank">
+        Open Wikipedia in a new tab
+      </a>
+    supplemental:
+      type: "tip"
+      title: "When to Use target=\"_blank\""
+      content: "Use it for external links to other websites, but let internal links on your own site open normally."
+
+  - id: "step-9"
+    explanation: "You can link to other pages on your own website using relative paths."
+    code: |
+      <a href="about.html">About Page</a>
+      <a href="contact.html">Contact Page</a>
+      <a href="gallery/photos.html">Photo Gallery</a>
+    supplemental:
+      type: "example"
+      title: "Relative vs Absolute Paths"
+      content: "Relative: 'about.html' (same folder). Absolute: 'https://...' (full web address). Use relative for your own site's pages."
+
+  - id: "step-10"
+    explanation: "Try creating a navigation menu with three links to different pages."
+    task:
+      instruction: "Create an unordered list with three links: Home (home.html), About (about.html), and Contact (contact.html)."
+      expected: "<ul>.*<li>.*<a href=\"home.html\">.*</a>.*</li>.*<li>.*<a href=\"about.html\">.*</a>.*</li>.*<li>.*<a href=\"contact.html\">.*</a>.*</li>.*</ul>"
+      starterCode: |
+        <body>
+          <nav>
+            <h2>Navigation</h2>
+            <!-- Create your list of links here -->
+          </nav>
+        </body>
+    supplemental:
+      type: "tip"
+      title: "The <nav> Element"
+      content: "The <nav> tag is semantic HTML that indicates navigation links. It helps search engines and screen readers understand your page structure."
+
+  - id: "step-11"
+    explanation: "Images are added with the `&lt;img&gt;` tag. It's self-closing and requires a `src` attribute (source) that points to the image file."
+    code: |
+      <img src="cat.jpg">
+    visual:
+      type: "render"
+      content: "Image displayed"
+    supplemental:
+      type: "tip"
+      title: "Image Formats"
+      content: "Common web image formats: .jpg/.jpeg (photos), .png (transparent backgrounds), .gif (animations), .svg (scalable graphics)."
+
+  - id: "step-12"
+    explanation: "Always include the `alt` attribute. It describes the image for people who can't see it, and shows if the image doesn't load."
+    code: |
+      <img src="cat.jpg" alt="A fluffy orange cat sleeping on a couch">
+    supplemental:
+      type: "tip"
+      title: "Writing Good Alt Text"
+      content: "Describe what's in the image as if you're telling someone who can't see it. Be specific but concise."
+
+  - id: "step-13"
+    explanation: "You can control image size with `width` and `height` attributes. Values are in pixels."
+    code: |
+      <img src="cat.jpg" alt="Sleeping cat" width="300" height="200">
+    visual:
+      type: "render"
+      content: "Image with specific dimensions"
+    supplemental:
+      type: "tip"
+      title: "Maintaining Aspect Ratio"
+      content: "Usually, set only width OR height (not both) to let the browser maintain the correct proportions. CSS is better for sizing in real projects."
+
+  - id: "step-14"
+    explanation: "You can make images clickable by wrapping them in an `&lt;a&gt;` tag."
+    code: |
+      <a href="https://www.example.com">
+        <img src="logo.png" alt="Example Company Logo" width="150">
+      </a>
+    visual:
+      type: "render"
+      content: "Clickable image"
+    supplemental:
+      type: "example"
+      title: "Common Use Case"
+      content: "This is how website logos usually work—clicking the logo takes you to the homepage."
+
+  - id: "step-15"
+    explanation: "Images can also use full URLs to display images from other websites."
+    code: |
+      <img src="https://www.example.com/images/photo.jpg" 
+           alt="Sample photo">
+    supplemental:
+      type: "tip"
+      title: "Hotlinking Caution"
+      content: "Using images from other websites (hotlinking) may be against their terms of service. For projects, download images or use free stock photo sites."
+
+  - id: "step-16"
+    explanation: "The `&lt;figure&gt;` and `&lt;figcaption&gt;` tags let you add captions to images semantically."
+    code: |
+      <figure>
+        <img src="sunset.jpg" alt="Colorful sunset over mountains">
+        <figcaption>Sunset at Rocky Mountain National Park</figcaption>
+      </figure>
+    visual:
+      type: "render"
+      content: "Image with caption below"
+    supplemental:
+      type: "example"
+      title: "Semantic HTML"
+      content: "Using <figure> and <figcaption> tells browsers and screen readers that the image and caption are related."
+
+  - id: "step-17"
+    explanation: "Final challenge! Create a page about a place you'd like to visit with images and links."
+    task:
+      instruction: "Create a page with: an <h1> title, a paragraph describing the place, an image with alt text, a bulleted list of reasons to visit, and a link to learn more."
+      expected: "<h1>.*</h1>.*<p>.*</p>.*<img.*src=.*alt=.*>.*<ul>.*<li>.*</li>.*</ul>.*<a.*href=.*>.*</a>"
+      starterCode: |
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Dream Destination</title>
+        </head>
+        <body>
+          <!-- Build your destination page here -->
+        </body>
+        </html>
+    supplemental:
+      type: "example"
+      title: "Content Ideas"
+      content: "Think about: Where is it? What makes it special? What would you do there? Find an image URL from a stock photo site like Unsplash."

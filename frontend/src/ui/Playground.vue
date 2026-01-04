@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import Prism from 'prismjs';
+import 'prismjs/components/prism-css';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-markup';
+import 'prismjs/themes/prism-tomorrow.css';
 import { computed, onMounted, ref, watch } from 'vue';
 
 const props = defineProps<{
@@ -14,12 +19,31 @@ const emit = defineEmits<{
 const code = ref(props.initialCode || '');
 const iframeRef = ref<HTMLIFrameElement | null>(null);
 const textareaRef = ref<HTMLTextAreaElement | null>(null);
+const preRef = ref<HTMLPreElement | null>(null);
 const lineNumbersRef = ref<HTMLDivElement | null>(null);
 const isRunning = ref(false);
 const showPasteAlert = ref(false);
 const showNoVisibleContentWarning = ref(false);
 
 const lineCount = computed(() => code.value.split('\n').length);
+
+const highlightedCode = computed(() => {
+  const lang = props.language || 'html';
+  const prismLang = lang === 'html' ? 'markup' : lang === 'js' ? 'javascript' : lang;
+
+  if (Prism.languages[prismLang]) {
+    // We need to escape HTML entities for the pre block manually if we were just dumping text,
+    // but Prism.highlight returns HTML.
+    // However, we must ensure that the trailing newline is preserved visually.
+    const highlighted = Prism.highlight(code.value, Prism.languages[prismLang], prismLang);
+    // Add a zero-width space if the code ends with a newline, to ensure the last line is rendered
+    return code.value.endsWith('\n') ? highlighted + '<br>' : highlighted;
+  }
+  return code.value // Fallback
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;") + (code.value.endsWith('\n') ? '<br>' : '');
+});
 
 watch(() => props.initialCode, (newCode) => {
   if (newCode !== undefined && newCode !== code.value) {
@@ -29,6 +53,13 @@ watch(() => props.initialCode, (newCode) => {
 });
 
 function handlePaste(e: ClipboardEvent) {
+  // Log paste attempt to backend
+  const content = e.clipboardData?.getData('text') || '';
+  fetch('http://localhost:8080/api/log/paste', {
+    method: 'POST',
+    body: content
+  }).catch(err => console.error("Failed to log paste", err));
+
   // Prevent paste
   e.preventDefault();
 
@@ -42,8 +73,14 @@ function handlePaste(e: ClipboardEvent) {
 }
 
 function handleScroll() {
-  if (textareaRef.value && lineNumbersRef.value) {
-    lineNumbersRef.value.scrollTop = textareaRef.value.scrollTop;
+  if (textareaRef.value) {
+    const scrollTop = textareaRef.value.scrollTop;
+    if (lineNumbersRef.value) {
+      lineNumbersRef.value.scrollTop = scrollTop;
+    }
+    if (preRef.value) {
+      preRef.value.scrollTop = scrollTop;
+    }
   }
 }
 
@@ -211,10 +248,21 @@ onMounted(() => {
             <div v-for="n in lineCount" :key="n">{{ n }}</div>
           </div>
 
-          <!-- Textarea -->
-          <textarea ref="textareaRef" v-model="code" @scroll="handleScroll" @paste="handlePaste"
-            class="flex-1 w-full p-4 font-mono text-sm bg-gray-900 text-gray-100 resize-none focus:outline-none focus:ring-0 ring-0 leading-6 whitespace-pre"
-            placeholder="Type your code here..." spellcheck="false"></textarea>
+          <!-- Editor Container -->
+          <!-- Editor Container -->
+          <div class="flex-1 relative font-mono text-sm leading-6 bg-[#2d2d2d]">
+            <!-- Highlight Overlay (Back Layer) -->
+            <pre ref="preRef"
+              class="absolute inset-0 p-4 m-0 overflow-hidden pointer-events-none whitespace-pre break-normal text-gray-100 z-0"
+              aria-hidden="true"
+              style="font-family: monospace;"><code class="block font-mono text-sm leading-6" v-html="highlightedCode"></code></pre>
+
+            <!-- Textarea (Front Layer) -->
+            <textarea ref="textareaRef" v-model="code" @scroll="handleScroll" @paste="handlePaste"
+              class="absolute inset-0 w-full h-full p-4 bg-transparent text-transparent caret-white resize-none focus:outline-none focus:ring-0 ring-0 leading-6 whitespace-pre z-10 placeholder:text-gray-500"
+              style="color: transparent; background: transparent; -webkit-text-fill-color: transparent;"
+              placeholder="Type your code here..." spellcheck="false"></textarea>
+          </div>
         </div>
       </div>
 
@@ -254,7 +302,8 @@ onMounted(() => {
               </div>
               <div class="ml-3">
                 <p class="text-sm text-blue-700">
-                  <span class="font-bold">Hey:</span> everything is working, you are not seeing anything cause tags like &lt;title&gt; don't appear in the
+                  <span class="font-bold">Hey:</span> everything is working, you are not seeing anything cause tags like
+                  &lt;title&gt; don't appear in the
                   page body.
                 </p>
               </div>

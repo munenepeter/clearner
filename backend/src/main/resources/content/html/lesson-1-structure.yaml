@@ -1,0 +1,267 @@
+# ==========================================
+# LESSON 1: HTML STRUCTURE & TEXT BASICS
+# ==========================================
+
+id: "html-01-structure"
+topic: "HTML"
+title: "The Skeleton of the Web"
+steps:
+  - id: "step-1"
+    explanation: "HTML stands for **H**yper**T**ext **M**arkup **L**anguage. It is the code that organizes a web page's content, like the skeleton of a body."
+    visual:
+      type: "highlight"
+      target: "skeleton"
+      content: "HTML Structure"
+    supplemental:
+      type: "example"
+      title: "Real Life Analogy"
+      content: "Think of HTML like the frame of a house. It holds everything together but doesn't have paint (CSS) or electricity (JavaScript) yet."
+  
+  - id: "step-2"
+    explanation: "Every modern HTML file must start with a `&lt;!DOCTYPE html&gt` declaration. This tells the browser to use the latest HTML5 standard."
+    code: |
+      <!DOCTYPE html>
+    visual:
+      type: "appear"
+      content: "<!DOCTYPE html>"
+    supplemental:
+      type: "tip"
+      title: "Beginner's Tip"
+      content: "Always include this line first. Without it, some browsers might display your page incorrectly! It's not an HTML tag, but an instruction to the web browser."
+
+  - id: "step-3"
+    explanation: "Now it's your turn. Type the doctype declaration in the editor to proceed."
+    code: |
+      <!DOCTYPE html>
+    task:
+      instruction: "Type '<!DOCTYPE html>' in the editor and click Run."
+      expected: "<!DOCTYPE html>"
+      starterCode: ""
+    supplemental:
+      type: "tip"
+      title: "Pro Tip"
+      content: "The declaration is not case sensitive, but it's a convention to write 'DOCTYPE' in uppercase."
+
+  - id: "step-4"
+    explanation: "The `&lt;html&gt` element is the root of the document. Everything else lives inside it."
+    code: |
+      <!DOCTYPE html>
+      <html>
+        
+      </html>
+    visual:
+      type: "appear"
+      content: "<html>...</html>"
+    supplemental:
+      type: "example"
+      title: "Visual Analogy"
+      content: "It's like the cover of a book. Everything inside the book must be between the front <html> and back </html> cover."
+
+  - id: "step-5"
+    explanation: "Inside `&lt;html&gt`, we have two main parts: `&lt;head&gt` and `&lt;body&gt`.\n\nThe `&lt;head&gt` contains information **about** the page, like the title."
+    code: |
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>My First Page</title>
+        </head>
+      </html>
+    visual:
+      type: "highlight"
+      target: "head"
+    supplemental:
+      type: "example"
+      title: "The Brain vs. The Body"
+      content: "The <head> is like your brain (thoughts, memories, instructions). The <body> is like your physical body (what people see)."
+
+  - id: "step-6"
+    explanation: "The `&lt;body&gt` contains the content that users **actually see**, like text, images, and buttons."
+    code: |
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>My First Page</title>
+        </head>
+        <body>
+          <h1>Hello World!</h1>
+        </body>
+      </html>
+    visual:
+      type: "highlight"
+      target: "body"
+    supplemental:
+      type: "example"
+      title: "The Stage"
+      content: "Think of the <body> as the stage of a theater. The actors, props, and scenery go here for the audience to see."
+
+  - id: "step-7"
+    explanation: "Practice time! Create a complete HTML skeleton with a title of your choice."
+    code: |
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>My First Page</title>
+        </head>
+        <body>
+        </body>
+      </html>
+    task:
+      instruction: "Create a full HTML structure with <!DOCTYPE html>, <html>, <head> with a <title>, and an empty <body>."
+      expected: "<!DOCTYPE html>\n<html>\n<head>\n<title>(.*)</title>\n</head>\n<body>\n</body>\n</html>"
+      starterCode: ""
+    supplemental:
+      type: "tip"
+      title: "Remember"
+      content: "Every opening tag needs a closing tag. <html> needs </html>, <head> needs </head>, and so on."
+
+  - id: "step-8"
+    explanation: "Headings create titles and subtitles on your page. HTML has six levels: `&lt;h1&gt` to `&lt;h6&gt`. `&lt;h1&gt` is the largest and most important."
+    code: |
+      <h1>This is a Main Heading</h1>
+      <h2>This is a Subheading</h2>
+      <h3>This is smaller</h3>
+      <h4>Getting smaller...</h4>
+      <h5>Even smaller</h5>
+      <h6>The smallest heading</h6>
+    visual:
+      type: "render"
+      content: "Six different heading sizes displayed"
+    supplemental:
+      type: "example"
+      title: "Book Chapter Analogy"
+      content: "Think of <h1> as the book title, <h2> as chapter titles, <h3> as section headings, and so on."
+
+  - id: "step-9"
+    explanation: "Use `&lt;h1&gt` for your page's main title. You should typically only have one `&lt;h1&gt` per page, like a newspaper has one main headline."
+    code: |
+      <body>
+        <h1>Welcome to My Website</h1>
+        <h2>About Me</h2>
+        <h2>My Projects</h2>
+        <h2>Contact</h2>
+      </body>
+    supplemental:
+      type: "tip"
+      title: "SEO Tip"
+      content: "Search engines use <h1> to understand what your page is about. Make it descriptive!"
+
+  - id: "step-10"
+    explanation: "The `&lt;p&gt` tag creates paragraphs of text. Each `&lt;p&gt` automatically adds spacing before and after."
+    code: |
+      <body>
+        <h1>My Story</h1>
+        <p>This is my first paragraph. It contains some text.</p>
+        <p>This is my second paragraph. Notice the space between paragraphs.</p>
+      </body>
+    visual:
+      type: "render"
+      content: "Two paragraphs with spacing"
+    supplemental:
+      type: "example"
+      title: "Writing Analogy"
+      content: "Just like in a book, paragraphs group related sentences together. Each new idea gets a new <p> tag."
+
+  - id: "step-11"
+    explanation: "Try creating a simple page with a heading and two paragraphs about yourself."
+    task:
+      instruction: "Create an <h1> heading and two <p> paragraphs inside the <body> tag."
+      expected: "<body>.*<h1>.*</h1>.*<p>.*</p>.*<p>.*</p>.*</body>"
+      starterCode: |
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>About Me</title>
+        </head>
+        <body>
+          <!-- Write your code here -->
+        </body>
+        </html>
+    supplemental:
+      type: "tip"
+      title: "HTML Comments"
+      content: "The <!-- --> symbols create comments. Comments are notes for yourself that the browser ignores."
+
+  - id: "step-12"
+    explanation: "The `&lt;br&gt` tag creates a line break. Unlike most tags, `&lt;br&gt` doesn't need a closing tag—it's self-closing."
+    code: |
+      <p>First line<br>Second line<br>Third line</p>
+    visual:
+      type: "render"
+      content: "Text on three separate lines within one paragraph"
+    supplemental:
+      type: "tip"
+      title: "When to Use <br>"
+      content: "Use <br> for things like addresses or poems where line breaks matter. For separating ideas, use separate <p> tags instead."
+
+  - id: "step-13"
+    explanation: "The `&lt;hr&gt` tag creates a horizontal rule (line) across the page. It's also self-closing and great for separating content."
+    code: |
+      <h2>Section One</h2>
+      <p>Some content here.</p>
+      <hr>
+      <h2>Section Two</h2>
+      <p>Different content here.</p>
+    visual:
+      type: "render"
+      content: "Two sections separated by a horizontal line"
+    supplemental:
+      type: "example"
+      title: "Visual Separator"
+      content: "Think of <hr> like a scene break in a movie or a divider between sections in a document."
+
+  - id: "step-14"
+    explanation: "The `&lt;strong&gt` tag makes text **bold** and indicates that the text is important."
+    code: |
+      <p>This is <strong>very important</strong> information.</p>
+    visual:
+      type: "render"
+      content: "Text with bolded portion"
+    supplemental:
+      type: "tip"
+      title: "Strong vs Bold"
+      content: "While <strong> makes text bold, it also tells screen readers that the text is important, making your page more accessible."
+
+  - id: "step-15"
+    explanation: "The `&lt;em&gt` tag *emphasizes* text, usually displaying it in italics."
+    code: |
+      <p>I <em>really</em> love coding!</p>
+    visual:
+      type: "render"
+      content: "Text with italicized portion"
+    supplemental:
+      type: "example"
+      title: "Emphasis in Context"
+      content: "Use <em> when you'd naturally stress a word if speaking aloud."
+
+  - id: "step-16"
+    explanation: "You can combine `&lt;strong&gt` and `&lt;em&gt` by nesting them inside each other."
+    code: |
+      <p>This is <strong><em>very important and emphasized</em></strong>!</p>
+      <p>Or: <em><strong>same effect</strong></em>!</p>
+    visual:
+      type: "render"
+      content: "Bold and italic text"
+    supplemental:
+      type: "tip"
+      title: "Nesting Tags"
+      content: "When nesting tags, always close the most recent tag first. Think of them like parentheses in math."
+
+  - id: "step-17"
+    explanation: "Final challenge! Create a complete page about your favorite hobby using everything you've learned."
+    task:
+      instruction: "Create a page with: an <h1> title, two <h2> subheadings, three <p> paragraphs (using <strong> and <em>), one <hr> divider, and at least one <br> line break."
+      expected: "<h1>.*</h1>.*<h2>.*</h2>.*<p>.*<strong>.*</strong>.*</p>.*<hr>.*<em>.*</em>.*<br>"
+      starterCode: |
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>My Hobby</title>
+        </head>
+        <body>
+          <!-- Create your page here -->
+        </body>
+        </html>
+    supplemental:
+      type: "example"
+      title: "Example Structure"
+      content: "Think about: What's your hobby? Why do you love it? What makes it special? Use headings to organize and emphasis tags to highlight important points."

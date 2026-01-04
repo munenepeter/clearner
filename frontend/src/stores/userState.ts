@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+import type { User } from '../services/api'
 
 export const useUserStateStore = defineStore('userState', () => {
   // Track which steps user has completed
@@ -18,6 +19,8 @@ export const useUserStateStore = defineStore('userState', () => {
 
   // User identity
   const username = ref('Guest')
+  const userId = ref<string | null>(null)
+  const user = ref<User | null>(null)
 
 
   // Session statistics
@@ -27,6 +30,13 @@ export const useUserStateStore = defineStore('userState', () => {
     timeSpent: 0, // in seconds
     lastVisit: new Date()
   })
+
+  // Set user from backend
+  const setUser = (userData: User) => {
+    user.value = userData
+    userId.value = userData.id
+    username.value = userData.displayName
+  }
 
   // Mark step as completed
   const completeStep = (stepId: string) => {
@@ -63,6 +73,9 @@ export const useUserStateStore = defineStore('userState', () => {
     isStepCompleted,
     resetLessonProgress,
     progressPercentage,
-    username
+    username,
+    userId,
+    user,
+    setUser
   }
 })

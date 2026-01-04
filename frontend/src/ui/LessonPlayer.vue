@@ -2,26 +2,57 @@
 import { computed, onMounted, watch } from 'vue';
 import { lessonRunner } from '../engine/lessonRunner';
 import { EngineState } from '../engine/types';
+import { progressService } from '../services/api';
 import { useUserStateStore } from '../stores/userState';
 import CodePanel from './CodePanel.vue';
 import InstructionPanel from './InstructionPanel.vue';
 import Visualizer from './Visualizer.vue';
 
 const userState = useUserStateStore();
+const LESSON_ID = 'html/lesson-1-structure';
 
-onMounted(() => {
-  lessonRunner.load('html/lesson-1-structure.yaml');
-  userState.currentLessonId = 'html/lesson-1-structure.yaml';
+onMounted(async () => {
+  // Safety check: Don't load if user is not authenticated
+  if (!userState.userId) {
+    console.warn('LessonPlayer mounted without authenticated user');
+    return;
+  }
+
+  lessonRunner.load(LESSON_ID);
+  userState.currentLessonId = LESSON_ID;
+
+  // Fetch progress from backend
+  const progressList = await progressService.getProgress(userState.userId);
+  const currentProgress = progressList.find(p => p.lessonId === LESSON_ID);
+
+  if (currentProgress && currentProgress.currentStep > 0) {
+    // Resume from saved step
+    for (let i = 0; i < currentProgress.currentStep; i++) {
+      lessonRunner.next();
+    }
+  }
+
   userState.lastStepReached = 'step-1';
 });
 
 const runner = lessonRunner;
 
-// Watch for step changes to update user state
+// Watch for step changes to update user state and save progress
 watch(() => runner.currentStep.value, (newStep) => {
   if (newStep?.id) {
     userState.lastStepReached = newStep.id;
     userState.sessionStats.totalStepsAttempted++;
+
+    // Save progress to backend
+    if (userState.userId) {
+      const isCompleted = runner.currentStepIndex.value === (runner.currentLesson.value?.steps.length || 0) - 1;
+      progressService.saveProgress(
+        userState.userId,
+        LESSON_ID,
+        runner.currentStepIndex.value,
+        isCompleted
+      );
+    }
   }
 });
 

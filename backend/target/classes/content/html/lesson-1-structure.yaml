@@ -107,7 +107,7 @@ steps:
       </html>
     task:
       instruction: "Create a full HTML structure with <!DOCTYPE html>, <html>, <head> with a <title>, and an empty <body>."
-      expected: "<!DOCTYPE html>\n<html>\n<head>\n<title>.*</title>\n</head>\n<body>\n</body>\n</html>"
+      expected: "<!DOCTYPE html>\n<html>\n<head>\n<title>(.*)</title>\n</head>\n<body>\n</body>\n</html>"
       starterCode: ""
     supplemental:
       type: "tip"
